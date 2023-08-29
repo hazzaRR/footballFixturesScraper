@@ -51,7 +51,7 @@ def get_match_details(links):
 
 def save_to_csv(matches, team):
     matchesdf = pd.DataFrame(matches)
-    matchesdf.to_csv(team.replace(' ', '-').lower() + '-fixtures-22-23.csv', index=False)
+    matchesdf.to_csv(team.replace(' ', '-').lower() + '-fixtures-23-24.csv', index=False)
     print(matchesdf)
 
 
