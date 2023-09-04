@@ -1,45 +1,44 @@
-Home Team,Away Team,Kick Off,Date,Stadium,Competition
-Bolton Wanderers,Derby County,3:00pm,2023-09-02,University of Bolton Stadium, Sky Bet League One
-Derby County,Portsmouth,3:00pm,2023-09-16,Pride Park Stadium, Sky Bet League One
-Derby County,Lincoln City,7:00pm,2023-09-19,Pride Park Stadium, EFL Trophy Northern Group G
-Carlisle United,Derby County,3:00pm,2023-09-23,Brunton Park, Sky Bet League One
-Derby County,Cambridge United,3:00pm,2023-09-30,Pride Park Stadium, Sky Bet League One
-Blackpool,Derby County,7:45pm,2023-10-03,Bloomfield Road, Sky Bet League One
-Cheltenham Town,Derby County,3:00pm,2023-10-07,Whaddon Road Ground, Sky Bet League One
-Notts County,Derby County,7:00pm,2023-10-10,Meadow Lane, EFL Trophy Northern Group G
-Derby County,Charlton Athletic,3:00pm,2023-10-14,Pride Park Stadium, Sky Bet League One
-Shrewsbury Town,Derby County,3:00pm,2023-10-21,Montgomery Waters Meadow, Sky Bet League One
-Derby County,Exeter City,7:45pm,2023-10-24,Pride Park Stadium, Sky Bet League One
-Stevenage,Derby County,3:00pm,2023-10-28,Lamex Stadium, Sky Bet League One
-Derby County,Northampton Town,7:45pm,2023-10-31,Pride Park Stadium, Sky Bet League One
-Derby County,Wolverhampton Wanderers U21,7:00pm,2023-11-07,Pride Park Stadium, EFL Trophy Northern Group G
-Derby County,Barnsley,3:00pm,2023-11-11,Pride Park Stadium, Sky Bet League One
-Reading,Derby County,3:00pm,2023-11-18,Select Car Leasing Stadium, Sky Bet League One
-Derby County,Bristol Rovers,3:00pm,2023-11-25,Pride Park Stadium, Sky Bet League One
-Port Vale,Derby County,7:45pm,2023-11-28,Vale Park, Sky Bet League One
-Leyton Orient,Derby County,3:00pm,2023-12-09,Breyer Group Stadium, Sky Bet League One
-Derby County,Wycombe Wanderers,3:00pm,2023-12-16,Pride Park Stadium, Sky Bet League One
-Derby County,Lincoln City,7:45pm,2023-12-21,Pride Park Stadium, Sky Bet League One
-Wigan Athletic,Derby County,3:00pm,2023-12-26,DW Stadium, Sky Bet League One
-Oxford United,Derby County,7:45pm,2023-12-29,The Kassam Stadium, Sky Bet League One
-Derby County,Peterborough United,3:00pm,2024-01-01,Pride Park Stadium, Sky Bet League One
-Fleetwood Town,Derby County,3:00pm,2024-01-06,Highbury Stadium, Sky Bet League One
-Derby County,Burton Albion,3:00pm,2024-01-13,Pride Park Stadium, Sky Bet League One
-Lincoln City,Derby County,3:00pm,2024-01-20,LNER Stadium, Sky Bet League One
-Derby County,Cheltenham Town,3:00pm,2024-01-27,Pride Park Stadium, Sky Bet League One
-Charlton Athletic,Derby County,3:00pm,2024-02-03,The Valley, Sky Bet League One
-Derby County,Shrewsbury Town,3:00pm,2024-02-10,Pride Park Stadium, Sky Bet League One
-Exeter City,Derby County,7:45pm,2024-02-13,St James Park, Sky Bet League One
-Derby County,Stevenage,3:00pm,2024-02-17,Pride Park Stadium, Sky Bet League One
-Barnsley,Derby County,3:00pm,2024-02-24,Oakwell Stadium, Sky Bet League One
-Derby County,Port Vale,3:00pm,2024-03-02,Pride Park Stadium, Sky Bet League One
-Bristol Rovers,Derby County,3:00pm,2024-03-09,Memorial Stadium, Sky Bet League One
-Derby County,Reading,7:45pm,2024-03-12,Pride Park Stadium, Sky Bet League One
-Derby County,Bolton Wanderers,3:00pm,2024-03-16,Pride Park Stadium, Sky Bet League One
-Northampton Town,Derby County,3:00pm,2024-03-23,PTS Academy Stadium, Sky Bet League One
-Derby County,Blackpool,3:00pm,2024-03-29,Pride Park Stadium, Sky Bet League One
-Portsmouth,Derby County,3:00pm,2024-04-01,Fratton Park, Sky Bet League One
-Wycombe Wanderers,Derby County,3:00pm,2024-04-06,Adams Park, Sky Bet League One
-Derby County,Leyton Orient,3:00pm,2024-04-13,Pride Park Stadium, Sky Bet League One
-Cambridge United,Derby County,3:00pm,2024-04-20,The Abbey Stadium, Sky Bet League One
-Derby County,Carlisle United,3:00pm,2024-04-27,Pride Park Stadium, Sky Bet League One
+Home Team,Away Team,Kick Off,Stadium,Competition,SkySportsURL
+Derby County,Portsmouth,2023-09-16 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-portsmouth/483683
+Derby County,Lincoln City,2023-09-19 19:00:00,Pride Park Stadium, EFL Trophy Northern Group G,https://www.skysports.com/football/derby-county-vs-lincoln-city/495048
+Carlisle United,Derby County,2023-09-23 15:00:00,Brunton Park, Sky Bet League One,https://www.skysports.com/football/carlisle-united-vs-derby-county/483699
+Derby County,Cambridge United,2023-09-30 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-cambridge-united/483707
+Blackpool,Derby County,2023-10-03 19:45:00,Bloomfield Road, Sky Bet League One,https://www.skysports.com/football/blackpool-vs-derby-county/483718
+Cheltenham Town,Derby County,2023-10-07 15:00:00,Whaddon Road Ground, Sky Bet League One,https://www.skysports.com/football/cheltenham-town-vs-derby-county/483733
+Notts County,Derby County,2023-10-10 19:00:00,Meadow Lane, EFL Trophy Northern Group G,https://www.skysports.com/football/notts-county-vs-derby-county/495073
+Derby County,Charlton Athletic,2023-10-14 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-charlton-athletic/483747
+Shrewsbury Town,Derby County,2023-10-21 15:00:00,Montgomery Waters Meadow, Sky Bet League One,https://www.skysports.com/football/shrewsbury-town-vs-derby-county/483764
+Derby County,Exeter City,2023-10-24 19:45:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-exeter-city/483771
+Stevenage,Derby County,2023-10-28 15:00:00,Lamex Stadium, Sky Bet League One,https://www.skysports.com/football/stevenage-vs-derby-county/483788
+Derby County,Northampton Town,2023-10-31 19:45:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-northampton-town/483671
+Derby County,Wolverhampton Wanderers U21,2023-11-07 19:00:00,Pride Park Stadium, EFL Trophy Northern Group G,https://www.skysports.com/football/derby-county-vs-wolverhampton-wanderers-u21/495089
+Derby County,Barnsley,2023-11-11 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-barnsley/483793
+Reading,Derby County,2023-11-18 15:00:00,Select Car Leasing Stadium, Sky Bet League One,https://www.skysports.com/football/reading-vs-derby-county/483811
+Derby County,Bristol Rovers,2023-11-25 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-bristol-rovers/483817
+Port Vale,Derby County,2023-11-28 19:45:00,Vale Park, Sky Bet League One,https://www.skysports.com/football/port-vale-vs-derby-county/483834
+Leyton Orient,Derby County,2023-12-09 15:00:00,Breyer Group Stadium, Sky Bet League One,https://www.skysports.com/football/leyton-orient-vs-derby-county/483843
+Derby County,Wycombe Wanderers,2023-12-16 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-wycombe-wanderers/483855
+Derby County,Lincoln City,2023-12-21 19:45:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-lincoln-city/483868
+Wigan Athletic,Derby County,2023-12-26 15:00:00,DW Stadium, Sky Bet League One,https://www.skysports.com/football/wigan-athletic-vs-derby-county/483885
+Oxford United,Derby County,2023-12-29 19:45:00,The Kassam Stadium, Sky Bet League One,https://www.skysports.com/football/oxford-united-vs-derby-county/483893
+Derby County,Peterborough United,2024-01-01 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-peterborough-united/483904
+Fleetwood Town,Derby County,2024-01-06 15:00:00,Highbury Stadium, Sky Bet League One,https://www.skysports.com/football/fleetwood-town-vs-derby-county/483914
+Derby County,Burton Albion,2024-01-13 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-burton-albion/483928
+Lincoln City,Derby County,2024-01-20 15:00:00,LNER Stadium, Sky Bet League One,https://www.skysports.com/football/lincoln-city-vs-derby-county/483940
+Derby County,Cheltenham Town,2024-01-27 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-cheltenham-town/483951
+Charlton Athletic,Derby County,2024-02-03 15:00:00,The Valley, Sky Bet League One,https://www.skysports.com/football/charlton-athletic-vs-derby-county/483960
+Derby County,Shrewsbury Town,2024-02-10 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-shrewsbury-town/483975
+Exeter City,Derby County,2024-02-13 19:45:00,St James Park, Sky Bet League One,https://www.skysports.com/football/exeter-city-vs-derby-county/483986
+Derby County,Stevenage,2024-02-17 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-stevenage/483997
+Barnsley,Derby County,2024-02-24 15:00:00,Oakwell Stadium, Sky Bet League One,https://www.skysports.com/football/barnsley-vs-derby-county/484006
+Derby County,Port Vale,2024-03-02 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-port-vale/484021
+Bristol Rovers,Derby County,2024-03-09 15:00:00,Memorial Stadium, Sky Bet League One,https://www.skysports.com/football/bristol-rovers-vs-derby-county/484032
+Derby County,Reading,2024-03-12 19:45:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-reading/484045
+Derby County,Bolton Wanderers,2024-03-16 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-bolton-wanderers/484055
+Northampton Town,Derby County,2024-03-23 15:00:00,PTS Academy Stadium, Sky Bet League One,https://www.skysports.com/football/northampton-town-vs-derby-county/484075
+Derby County,Blackpool,2024-03-29 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-blackpool/484079
+Portsmouth,Derby County,2024-04-01 15:00:00,Fratton Park, Sky Bet League One,https://www.skysports.com/football/portsmouth-vs-derby-county/484101
+Wycombe Wanderers,Derby County,2024-04-06 15:00:00,Adams Park, Sky Bet League One,https://www.skysports.com/football/wycombe-wanderers-vs-derby-county/484113
+Derby County,Leyton Orient,2024-04-13 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-leyton-orient/484119
+Cambridge United,Derby County,2024-04-20 15:00:00,The Abbey Stadium, Sky Bet League One,https://www.skysports.com/football/cambridge-united-vs-derby-county/484130
+Derby County,Carlisle United,2024-04-27 15:00:00,Pride Park Stadium, Sky Bet League One,https://www.skysports.com/football/derby-county-vs-carlisle-united/484139

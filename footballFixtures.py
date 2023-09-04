@@ -3,6 +3,9 @@ import requests
 import pandas as pd
 from datetime import datetime
 
+
+DATE_FORMAT_STRING = "%I:%M%p, %A %d %B %Y"
+
 def get_fixtures_links(team):
     team = team.replace(' ', '-').lower()
     url = f'https://www.skysports.com/{team}-fixtures'
@@ -44,10 +47,10 @@ def get_match_details(links):
         match = {
             'Home Team': teams[0].text,
             'Away Team': teams[1].text,
-            'Kick Off' : kickoff_datetime[0],
-            'Date': datetime.strptime(kickoff_date[0] + " " + day + " " + kickoff_date[2] + " " + kickoff_date[3], "%A %d %B %Y"),
+            'Kick Off': datetime.strptime(f"{kickoff_datetime[0]}, {kickoff_date[0]} {day} {kickoff_date[2]} {kickoff_date[3]}", DATE_FORMAT_STRING),
             'Stadium': game_data.find('span', class_='sdc-site-match-header__detail-venue').text.replace('.', ''),
-            'Competition': game_data.find('p', class_='sdc-site-match-header__detail-fixture').text.split('.')[1]
+            'Competition': game_data.find('p', class_='sdc-site-match-header__detail-fixture').text.split('.')[1],
+            "SkySportsURL": link
         }  
 
         matches.append(match)
