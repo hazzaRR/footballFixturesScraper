@@ -84,13 +84,19 @@ class ScrapeFixtures:
 
             cursor = conn.cursor()
 
-            cursor.execute("SELECT * FROM upcoming_fixtures")
+            cursor.execute("SELECT MAX(id) FROM upcoming_fixtures;")
 
-            print(cursor.fetchall())
+            currentID = cursor.fetchone()[0]+1
 
-            cursor.execute("SELECT * FROM match_results")
+            for i in range(len(matches)):
 
-            print(cursor.fetchall())
+                cursor.execute("INSERT INTO upcoming_fixtures(id, home_team, away_team, kickoff, stadium, competition, sky_sports_url) VALUES(%s, %s, %s, %s, %s, %s, %s)", (currentID, matches.loc[i, "Home Team"], matches.loc[i, "Away Team"], matches.loc[i, "Kick Off"], matches.loc[i, "Stadium"], matches.loc[i, "Competition"], matches.loc[i, "SkySportsURL"]))
+                conn.commit()
+
+                currentID += 1
+
+            
+            cursor.execute("SELECT * FROM upcoming_fixtures;")
 
             cursor.close()
         except (Exception, psycopg2.DatabaseError) as error:
@@ -104,11 +110,13 @@ class ScrapeFixtures:
 
 if __name__ == "__main__":
 
-    teamToFind = input("Which football team do you want to get fixtures for: ")
+    # teamToFind = input("Which football team do you want to get fixtures for: ")
     webscrapperBot = ScrapeFixtures()
 
     # matchesList = webscrapperBot.get_match_details(webscrapperBot.get_fixtures_links(teamToFind))
-
-    webscrapperBot.save_to_PostgresDatabase(None)
-
     # webscrapperBot.save_to_csv(matchesList, teamToFind)
+
+    savedMatches = pd.read_csv("derby-county-fixtures-upcoming.csv")
+
+    webscrapperBot.save_to_PostgresDatabase(savedMatches)
+
