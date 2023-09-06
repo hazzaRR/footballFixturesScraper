@@ -58,18 +58,75 @@ def get_all_matches(team, seasonURL):
         date = match_data[0].text
         teams = match_data[1].text.split(" v ")
         result = match_data[2].text
-        score = match_data[3].text.strip().split("-")
+        score = match_data[3].text.strip().split(" ")
         competition = match_data[4].text.strip()
 
-        data.append([datetime.strptime(date, DATE_FORMAT_STRING).date(), teams[0], teams[1], result, score[0], score[1], competition, season])
+        print(score)
 
-    matchesdf = pd.DataFrame(data, columns=["Date", "Home Team", "Away Team", "Result", "Home Score", "Away Score", "Competiton", "Season"])
+        pensResult = None
+
+        game_score = score[0].split("-")
+
+        if len(score) == 2:
+            pensResult = score[1].strip("()")
+
+
+        data.append([datetime.strptime(date, DATE_FORMAT_STRING).date(), teams[0], teams[1], result, game_score[0], game_score[1], pensResult, competition, season])
+
+    matchesdf = pd.DataFrame(data, columns=["Date", "Home Team", "Away Team", "Result", "Home Score", "Away Score", "Penalties Score", "Competition", "Season"])
 
 
     return matchesdf
 
 
     matchesdf.to_csv(f"seasonResults/{team.replace(' ', '-').lower()}-match-results-{season}.csv", index=False)
+
+def save_to_PostgresDatabase(matchesdf):
+
+    try:
+        #establishing the connection
+        conn = psycopg2.connect(
+        database="derbycounty", user='postgres', password=DATABASE_PASSWORD, host='localhost', port= '5432'
+        )
+
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT MAX(id) FROM match_results;")
+
+        if cursor.fetchone()[0] == None:
+            currentID = 1
+        else:
+            currentID = cursor.fetchone()[0]+1
+
+        print(matchesdf)
+
+        for i in range(len(matchesdf)):
+
+            print(matchesdf.loc[i, "Penalties Score"])
+
+            if matchesdf.loc[i, "Penalties Score"] == None:
+                cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, kickoff, competition, season) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                                (currentID, matchesdf.loc[i, "Home Team"], matchesdf.loc[i, "Away Team"], matchesdf.loc[i, "Result"], matchesdf.loc[i, "Home Score"], matchesdf.loc[i, "Away Score"], matchesdf.loc[i, "Date"], matchesdf.loc[i, "Competition"], matchesdf.loc[i, "Season"]))
+            
+            else:
+                cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, penalties_score, kickoff, competition, season) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                (currentID, matchesdf.loc[i, "Home Team"], matchesdf.loc[i, "Away Team"], matchesdf.loc[i, "Result"], matchesdf.loc[i, "Home Score"], matchesdf.loc[i, "Away Score"], matchesdf.loc[i, "Penalties Score"], matchesdf.loc[i, "Date"], matchesdf.loc[i, "Competition"], matchesdf.loc[i, "Season"]))
+
+            conn.commit()
+
+            currentID += 1
+
+        
+        cursor.execute("SELECT * FROM match_results;")
+
+        cursor.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+            print('Database connection closed.')
+
 
 if __name__ == "__main__":
 
@@ -78,8 +135,6 @@ if __name__ == "__main__":
 
     findAllSeasons  = input("Do you want the match data for every season or a specific season? Y = all, N = specific season: ").capitalize().strip()
 
-    print(type(findAllSeasons))
-
     while (findAllSeasons != "Y" and findAllSeasons != "N"):
         findAllSeasons  = input("Do you want the match data for every season or a specific season? Y = all, N = specific season: ").capitalize()
     
@@ -87,13 +142,15 @@ if __name__ == "__main__":
         seasonsURLs = get_all_seasons(team)
         for url in seasonsURLs:
             matchesdf = get_all_matches(team, url)
+            # save_to_PostgresDatabase(matchesdf)
             print(matchesdf)
     
     else:
         year = input("Which football year do you want the results for: ")
         url = f"https://www.11v11.com/teams/{team}/tab/matches/season/{year}/"
         matchesdf = get_all_matches(team, url)
-        print(matchesdf)
+        save_to_PostgresDatabase(matchesdf)
+        # print(matchesdf)
 
 
 
