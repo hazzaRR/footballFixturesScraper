@@ -86,7 +86,12 @@ class ScrapeFixtures:
 
             cursor.execute("SELECT MAX(id) FROM upcoming_fixtures;")
 
-            currentID = cursor.fetchone()[0]+1
+            currentID = cursor.fetchone()[0]
+
+            if (currentID == None):
+                currentID = 1
+            else:
+                currentID += 1
 
             for i in range(len(matches)):
 

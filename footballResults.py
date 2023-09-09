@@ -61,8 +61,6 @@ def get_all_matches(team, seasonURL):
         score = match_data[3].text.strip().split(" ")
         competition = match_data[4].text.strip()
 
-        print(score)
-
         pensResult = None
 
         game_score = score[0].split("-")
@@ -81,7 +79,7 @@ def get_all_matches(team, seasonURL):
 
     matchesdf.to_csv(f"seasonResults/{team.replace(' ', '-').lower()}-match-results-{season}.csv", index=False)
 
-def save_to_PostgresDatabase(matchesdf):
+def save_to_PostgresDatabase(df):
 
     try:
         #establishing the connection
@@ -93,31 +91,29 @@ def save_to_PostgresDatabase(matchesdf):
 
         cursor.execute("SELECT MAX(id) FROM match_results;")
 
-        if cursor.fetchone()[0] == None:
+        currentID = cursor.fetchone()[0]
+
+        if currentID == None:
             currentID = 1
         else:
-            currentID = cursor.fetchone()[0]+1
-
-        print(matchesdf)
-
-        for i in range(len(matchesdf)):
-
-            print(matchesdf.loc[i, "Penalties Score"])
-
-            if matchesdf.loc[i, "Penalties Score"] == None:
-                cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, kickoff, competition, season) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                                (currentID, matchesdf.loc[i, "Home Team"], matchesdf.loc[i, "Away Team"], matchesdf.loc[i, "Result"], matchesdf.loc[i, "Home Score"], matchesdf.loc[i, "Away Score"], matchesdf.loc[i, "Date"], matchesdf.loc[i, "Competition"], matchesdf.loc[i, "Season"]))
-            
-            else:
-                cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, penalties_score, kickoff, competition, season) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                (currentID, matchesdf.loc[i, "Home Team"], matchesdf.loc[i, "Away Team"], matchesdf.loc[i, "Result"], matchesdf.loc[i, "Home Score"], matchesdf.loc[i, "Away Score"], matchesdf.loc[i, "Penalties Score"], matchesdf.loc[i, "Date"], matchesdf.loc[i, "Competition"], matchesdf.loc[i, "Season"]))
-
-            conn.commit()
-
             currentID += 1
 
-        
-        cursor.execute("SELECT * FROM match_results;")
+        for i in range(len(df)):
+
+            try:
+
+                if df.loc[i, "Penalties Score"] == None:
+                    cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, kickoff, competition, season) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                                    (currentID, df.loc[i, "Home Team"], df.loc[i, "Away Team"], df.loc[i, "Result"], df.loc[i, "Home Score"], df.loc[i, "Away Score"], df.loc[i, "Date"], df.loc[i, "Competition"], df.loc[i, "Season"]))
+                
+                else:
+                    cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, penalties_score, kickoff, competition, season) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (currentID, df.loc[i, "Home Team"], df.loc[i, "Away Team"], df.loc[i, "Result"], df.loc[i, "Home Score"], df.loc[i, "Away Score"], df.loc[i, "Penalties Score"], df.loc[i, "Date"], df.loc[i, "Competition"], df.loc[i, "Season"]))
+
+                conn.commit()
+                currentID += 1
+            except psycopg2.IntegrityError as error:
+                print("Match result already exists.. skipping result")
 
         cursor.close()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -142,8 +138,8 @@ if __name__ == "__main__":
         seasonsURLs = get_all_seasons(team)
         for url in seasonsURLs:
             matchesdf = get_all_matches(team, url)
-            # save_to_PostgresDatabase(matchesdf)
-            print(matchesdf)
+            save_to_PostgresDatabase(matchesdf)
+            # print(matchesdf)
     
     else:
         year = input("Which football year do you want the results for: ")
