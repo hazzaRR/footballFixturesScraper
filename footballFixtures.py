@@ -17,9 +17,13 @@ class ScrapeFixtures:
         pass
 
     def get_fixtures_links(self, team):
+        headers = {  
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
+            'Cache-Control': 'no-cache'
+        }
         team = team.replace(' ', '-').lower()
         url = f'https://www.skysports.com/{team}-fixtures'
-        r = requests.get(url)
+        r = requests.get(url, headers=headers)
         soup = BeautifulSoup(r.text, 'html.parser')
 
         fixturesLinks = []
@@ -115,13 +119,18 @@ class ScrapeFixtures:
 
 if __name__ == "__main__":
 
-    # teamToFind = input("Which football team do you want to get fixtures for: ")
+    teamToFind = input("Which football team do you want to get fixtures for: ")
     webscrapperBot = ScrapeFixtures()
 
-    # matchesList = webscrapperBot.get_match_details(webscrapperBot.get_fixtures_links(teamToFind))
+    matchesList = webscrapperBot.get_match_details(webscrapperBot.get_fixtures_links(teamToFind))
     # webscrapperBot.save_to_csv(matchesList, teamToFind)
 
-    savedMatches = pd.read_csv("derby-county-fixtures-upcoming.csv")
+    # savedMatches = pd.read_csv("derby-county-fixtures-upcoming.csv")
 
-    webscrapperBot.save_to_PostgresDatabase(savedMatches)
+    matchesdf = pd.DataFrame(matchesList)
+
+    print(matchesdf)
+
+    webscrapperBot.save_to_PostgresDatabase(matchesdf)
+    # webscrapperBot.save_to_PostgresDatabase(savedMatches)
 

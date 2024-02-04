@@ -10,8 +10,9 @@ import os
 DATE_FORMAT_STRING = "%d %b %Y"
 
 def get_all_seasons(team):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36'
+    headers = {  
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
+        'Cache-Control': 'no-cache'
     }
     team = team.replace(' ', '-').lower()
     url = f"https://www.11v11.com/teams/{team}/tab/matches/"
@@ -34,7 +35,8 @@ def get_all_seasons(team):
 
 def get_all_matches(team, seasonURL):
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
+        'Cache-Control': 'no-cache'
     }
     team = team.replace(' ', '-').lower()
     r = requests.get(seasonURL, headers=headers)
@@ -101,6 +103,7 @@ def save_to_PostgresDatabase(df):
         for i in range(len(df)):
 
             try:
+                print(df.loc[i, "Home Team"], df.loc[i, "Away Team"])
 
                 if df.loc[i, "Penalties Score"] == None:
                     cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, kickoff, competition, season) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
@@ -112,8 +115,18 @@ def save_to_PostgresDatabase(df):
 
                 conn.commit()
                 currentID += 1
-            except psycopg2.IntegrityError as error:
-                print("Match result already exists.. skipping result")
+            except psycopg2.IntegrityError as e:
+                if "duplicate key" in str(e):
+                    print("Match result already exists.. skipping result")
+                else:
+                    print(f"Error: {e}")
+                    conn.rollback()  # Roll back the transaction to avoid issues
+            except Exception as e:
+                print(f"Error: {e}")
+                conn.rollback()  # Roll back the transaction for any other unexpected errors
+    
+    except Exception as e:
+        print(f"Error: {e}")
 
         cursor.close()
     except (Exception, psycopg2.DatabaseError) as error:
