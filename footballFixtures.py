@@ -98,13 +98,22 @@ class ScrapeFixtures:
 
             for i in range(len(matches)):
 
-                cursor.execute("INSERT INTO upcoming_fixtures(id, home_team, away_team, kickoff, stadium, competition, sky_sports_url) VALUES(%s, %s, %s, %s, %s, %s, %s)", (currentID, matches.loc[i, "Home Team"], matches.loc[i, "Away Team"], matches.loc[i, "Kick Off"], matches.loc[i, "Stadium"], matches.loc[i, "Competition"], matches.loc[i, "SkySportsURL"]))
-                conn.commit()
+                try:
 
-                currentID += 1
+                    cursor.execute("INSERT INTO upcoming_fixtures(id, home_team, away_team, kickoff, stadium, competition, sky_sports_url) VALUES(%s, %s, %s, %s, %s, %s, %s)", (currentID, matches.loc[i, "Home Team"], matches.loc[i, "Away Team"], matches.loc[i, "Kick Off"], matches.loc[i, "Stadium"], matches.loc[i, "Competition"], matches.loc[i, "SkySportsURL"]))
+                    conn.commit()
 
-            
-            cursor.execute("SELECT * FROM upcoming_fixtures;")
+                    currentID += 1
+
+                except psycopg2.IntegrityError as e:
+                    if "duplicate key" in str(e):
+                        print("Match fixture already exists.. skipping result")
+                    else:
+                        print(f"Error: {e}")
+                        conn.rollback()
+                except Exception as e:
+                    print(f"Error: {e}")
+                    conn.rollback()
 
             cursor.close()
         except (Exception, psycopg2.DatabaseError) as error:
