@@ -10,7 +10,6 @@ import os
 
 class ScrapeFixtures:
 
-
     DATE_FORMAT_STRING = "%I:%M%p, %A %d %B %Y"
 
     def __init__(self):
