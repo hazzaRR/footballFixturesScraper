@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 import psycopg2
-from credentials import DATABASE_PASSWORD
+from credentials import DATABASE_PASSWORD, DATABASE_USERNAME, DATABASE_HOST
 import os
 import footballResults
 
@@ -13,16 +13,20 @@ DATE_FORMAT_STRING = "%d %b %Y"
 def findPlayedFixtures():
     try:
         conn = psycopg2.connect(
-        database="derbycounty", user='postgres', password=DATABASE_PASSWORD, host='localhost', port= '5432'
+        database="derbycounty", user=DATABASE_USERNAME, password=DATABASE_PASSWORD, host=DATABASE_HOST, port= '5432'
         )
 
         cursor = conn.cursor()
 
         # get all the current fixtures that have been played before today
         currentDate = datetime.now()
-        cursor.execute("SELECT * FROM upcoming_fixtures WHERE kickoff < %s", (currentDate,))
+        # cursor.execute("SELECT * FROM upcoming_fixtures WHERE kickoff < %s", (currentDate,))
+        cursor.execute("DELETE FROM upcoming_fixtures WHERE kickoff < %s RETURNING *", (currentDate,))
 
         FixturesToFindResultFor =  cursor.fetchall()
+
+        conn.commit()
+
 
     except Exception as e:
         print(f"Error: {e}")

@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 import psycopg2
-from credentials import DATABASE_PASSWORD
+from credentials import DATABASE_PASSWORD, DATABASE_HOST, DATABASE_USERNAME
 import os
 
 
@@ -82,7 +82,7 @@ class ScrapeFixtures:
         try:
             #establishing the connection
             conn = psycopg2.connect(
-            database="derbycounty", user='postgres', password=DATABASE_PASSWORD, host='localhost', port= '5432'
+            database="derbycounty", user=DATABASE_USERNAME, password=DATABASE_PASSWORD, host=DATABASE_HOST, port= '5432'
             )
 
             cursor = conn.cursor()
