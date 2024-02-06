@@ -4,8 +4,7 @@ import pandas as pd
 from datetime import datetime
 import psycopg2
 from credentials import DATABASE_PASSWORD, DATABASE_USERNAME, DATABASE_HOST
-import os
-import footballResults
+import logging
 
 
 DATE_FORMAT_STRING = "%d %b %Y"
@@ -24,6 +23,7 @@ def findPlayedFixtures():
         cursor.execute("DELETE FROM upcoming_fixtures WHERE kickoff < %s RETURNING *", (currentDate,))
 
         FixturesToFindResultFor =  cursor.fetchall()
+    
 
         conn.commit()
 
@@ -139,19 +139,20 @@ def save_to_PostgresDatabase(match_data):
             except psycopg2.IntegrityError as e:
                 if "duplicate key" in str(e):
                     print("Match result already exists.. skipping result")
+                    logging.warning('Match result already exists.. skipping result')
                 else:
                     print(f"Error: {e}")
+                    logging.warning(f"Error: {e}")
                     conn.rollback()  # Roll back the transaction to avoid issues
             except Exception as e:
                 print(f"Error: {e}")
+                logging.warning(f"Error: {e}")
                 conn.rollback()  # Roll back the transaction for any other unexpected errors
     
     except Exception as e:
         print(f"Error: {e}")
-
+        logging.warning(f"Error: {e}")
         cursor.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
     finally:
         if conn is not None:
             conn.close()
@@ -159,6 +160,9 @@ def save_to_PostgresDatabase(match_data):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(filename='webscraper.log', encoding='utf-8', level=logging.DEBUG)
+    logging.info("****************************************************")
+    logging.info(str(datetime.now()) + ' - newResults.py script started')
 
     for fixture in findPlayedFixtures():
         scrapeResult(fixture[6], fixture[4].date())

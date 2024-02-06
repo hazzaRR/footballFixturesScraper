@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime
 import psycopg2
 from credentials import DATABASE_PASSWORD, DATABASE_HOST, DATABASE_USERNAME
-import os
+import logging
 
 
 
@@ -108,11 +108,15 @@ class ScrapeFixtures:
                 except psycopg2.IntegrityError as e:
                     if "duplicate key" in str(e):
                         print("Match fixture already exists.. skipping result")
+                        logging.warning("Match fixture already exists.. skipping result")
+                        conn.rollback()
                     else:
                         print(f"Error: {e}")
+                        logging.warning(f"Error: {e}")
                         conn.rollback()
                 except Exception as e:
                     print(f"Error: {e}")
+                    logging.warning(f"Error: {e}")
                     conn.rollback()
 
             cursor.close()
@@ -126,8 +130,12 @@ class ScrapeFixtures:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(filename='webscraper.log', encoding='utf-8', level=logging.DEBUG)
+    logging.info("****************************************************")
+    logging.info(str(datetime.now()) + ' - footballFixtures.py script started')
 
-    teamToFind = input("Which football team do you want to get fixtures for: ")
+    # teamToFind = input("Which football team do you want to get fixtures for: ")
+    teamToFind = "Derby County"
     webscrapperBot = ScrapeFixtures()
 
     matchesList = webscrapperBot.get_match_details(webscrapperBot.get_fixtures_links(teamToFind))
@@ -137,7 +145,7 @@ if __name__ == "__main__":
 
     matchesdf = pd.DataFrame(matchesList)
 
-    print(matchesdf)
+    # print(matchesdf)
 
     webscrapperBot.save_to_PostgresDatabase(matchesdf)
     # webscrapperBot.save_to_PostgresDatabase(savedMatches)
