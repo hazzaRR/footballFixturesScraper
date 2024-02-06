@@ -4,7 +4,6 @@ import pandas as pd
 from datetime import datetime
 import psycopg2
 from credentials import DATABASE_PASSWORD, DATABASE_HOST, DATABASE_USERNAME
-import os
 
 
 DATE_FORMAT_STRING = "%d %b %Y"

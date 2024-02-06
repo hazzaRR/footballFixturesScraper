@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-import pandas as pd
 from datetime import datetime
 import psycopg2
 from credentials import DATABASE_PASSWORD, DATABASE_USERNAME, DATABASE_HOST
