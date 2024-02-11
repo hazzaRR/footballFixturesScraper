@@ -19,9 +19,11 @@ def findPlayedFixtures():
         # get all the current fixtures that have been played before today
         currentDate = datetime.now()
         # cursor.execute("SELECT * FROM upcoming_fixtures WHERE kickoff < %s", (currentDate,))
-        cursor.execute("DELETE FROM upcoming_fixtures WHERE kickoff < %s RETURNING *", (currentDate,))
+        cursor.execute("DELETE FROM upcoming_fixtures WHERE kickoff < %s RETURNING sky_sports_url, kickoff", (currentDate,))
 
         FixturesToFindResultFor =  cursor.fetchall()
+
+        print(FixturesToFindResultFor)
     
 
         conn.commit()
@@ -108,7 +110,7 @@ def save_to_PostgresDatabase(match_data):
 
     try:
         conn = psycopg2.connect(
-        database="derbycounty", user='postgres', password=DATABASE_PASSWORD, host='localhost', port= '5432'
+        database="derbycounty", user=DATABASE_USERNAME, password=DATABASE_PASSWORD, host=DATABASE_HOST, port= '5432'
         )
 
         cursor = conn.cursor()
@@ -164,7 +166,8 @@ if __name__ == "__main__":
     logging.info(str(datetime.now()) + ' - newResults.py script started')
 
     for fixture in findPlayedFixtures():
-        scrapeResult(fixture[6], fixture[4].date())
+        print(fixture[0], fixture[1].date())
+        scrapeResult(fixture[0], fixture[1].date())
 
 
 
