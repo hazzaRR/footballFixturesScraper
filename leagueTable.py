@@ -11,6 +11,7 @@ DATE_FORMAT_STRING = "%d %b %Y"
 
 def findLeagueTableLink(teamURL):
 
+    #get the most up to date league team is competing in
     headers = {  
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
         'Cache-Control': 'no-cache'
@@ -19,9 +20,6 @@ def findLeagueTableLink(teamURL):
     soup = BeautifulSoup(r.text, 'html.parser')
 
     tableLink = soup.find('a', class_='page-nav__link', string="Tables")
-
-
-    print(tableLink['href'])
 
     return tableLink['href']
 
@@ -50,9 +48,10 @@ def scrapeTableData(tableURL):
     for team in teamStats:
         stats = team.find_all('td', class_="standing-table__cell")
 
+        #get relevant stats from each row in the table
         teamStats = {
                 'League Position': stats[0].text,
-                'Team': stats[1].a.text,
+                'Team': stats[1].a.text.strip("* "),
                 'Played': stats[2].text,
                 'Wins': stats[3].text,
                 'Draws': stats[4].text,
@@ -69,7 +68,7 @@ def scrapeTableData(tableURL):
 
         
 
-def save_to_PostgresDatabase(match_data):
+def save_to_PostgresDatabase(leagueData):
 
     try:
         conn = psycopg2.connect(
@@ -78,32 +77,21 @@ def save_to_PostgresDatabase(match_data):
 
         cursor = conn.cursor()
 
-        cursor.execute("SELECT MAX(id) FROM match_results;")
+        #clear the current table
+        cursor.execute("DELETE FROM league_table")
+        conn.commit()
 
-        currentID = cursor.fetchone()[0]
-
-        if currentID == None:
-            currentID = 1
-        else:
-            currentID += 1
-
+        for teamStats in leagueData:
             try:
-                print(match_data[0], match_data[1])
 
-                if match_data[8] == "":
-                    cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, kickoff, competition, season, stadium) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                                    (currentID, match_data[0], match_data[1], match_data[2], match_data[3], match_data[4], match_data[5], match_data[6], match_data[7], match_data[8]))
-                
-                else:
-                    cursor.execute("INSERT INTO match_results(id, home_team, away_team, result, home_score, away_score, kickoff, competition, season, stadium, penalties_score) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (currentID, match_data[0], match_data[1], match_data[2], match_data[3], match_data[4], match_data[5], match_data[6], match_data[7], match_data[8], match_data[9]))
-
+                cursor.execute("INSERT INTO league_table(team, league_position, games_played, wins, draws, losses, goals_for, goals_against, goal_difference, points) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (teamStats['Team'], teamStats['League Position'], teamStats['Played'], teamStats['Wins'], teamStats['Draws'], teamStats['Losses'], teamStats['Goals For'], teamStats['Goals Against'], teamStats['Goals Difference'], teamStats['Points']))
                 conn.commit()
-                currentID += 1
+
             except psycopg2.IntegrityError as e:
                 if "duplicate key" in str(e):
-                    print("Match result already exists.. skipping result")
-                    logging.warning('Match result already exists.. skipping result')
+                    print("League data already exists.. skipping row")
+                    logging.warning("League data already exists.. skipping row")
                 else:
                     print(f"Error: {e}")
                     logging.warning(f"Error: {e}")
@@ -133,8 +121,7 @@ if __name__ == "__main__":
 
     leagueStats = scrapeTableData(f"https://www.skysports.com{tableURL}")
 
-    for teamStat in leagueStats:
-        print(teamStat)
+    save_to_PostgresDatabase(leagueStats)
 
 
 
