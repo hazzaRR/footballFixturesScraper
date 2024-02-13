@@ -51,10 +51,21 @@ def scrapeTableData(tableURL):
         stats = team.find_all('td', class_="standing-table__cell")
 
         teamStats = {
-                'League Position': teams[0].text,
+                'League Position': stats[0].text,
+                'Team': stats[1].a.text,
+                'Played': stats[2].text,
+                'Wins': stats[3].text,
+                'Draws': stats[4].text,
+                'Losses': stats[5].text,
+                'Goals For': stats[6].text,
+                'Goals Against': stats[7].text,
+                'Goals Difference': stats[8].text,
+                'Points': stats[9].text,
         }  
 
         LeagueStats.append(teamStats)
+
+    return LeagueStats
 
         
 
@@ -120,7 +131,10 @@ if __name__ == "__main__":
 
     tableURL = findLeagueTableLink("https://www.skysports.com/derby-county")
 
-    scrapeTableData(f"https://www.skysports.com{tableURL}")
+    leagueStats = scrapeTableData(f"https://www.skysports.com{tableURL}")
+
+    for teamStat in leagueStats:
+        print(teamStat)
 
 
 
