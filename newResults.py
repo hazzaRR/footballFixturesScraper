@@ -98,7 +98,7 @@ def scrapeResult(fixtureUrl, fixtureDate):
         else:
             result = "L"
 
-    match_data = [home_team, away_team, result, home_score, away_score, fixtureDate, competition, season, venue, penalty_result]
+    match_data = [home_team, away_team, result, home_score, away_score, fixtureDate, competition.replace("Sky Bet ", ""), season, venue, penalty_result]
 
 
     save_to_PostgresDatabase(match_data)
